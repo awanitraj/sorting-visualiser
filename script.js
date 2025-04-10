@@ -1,4 +1,4 @@
-// DOM Elements
+
 const arrayContainer = document.getElementById('array-container');
 const generateBtn = document.getElementById('generate-btn');
 const sortBtn = document.getElementById('sort-btn');
@@ -15,7 +15,6 @@ const timeDisplay = document.getElementById('time');
 const algorithmInfo = document.getElementById('algorithm-info');
 const themeSwitch = document.getElementById('theme-switch');
 
-// State variables
 let array = [];
 let arraySize = parseInt(arraySizeSlider.value);
 let speed = parseInt(speedSlider.value);
@@ -29,7 +28,6 @@ let startTime = 0;
 let sortingPromise = null;
 let shouldStop = false;
 
-// Algorithm information
 const algorithmDetails = {
     bubble: {
         name: "Bubble Sort",
@@ -93,7 +91,6 @@ const algorithmDetails = {
     }
 };
 
-// Initialize the app
 function init() {
     updateAlgorithmInfo();
     generateNewArray();
@@ -101,7 +98,7 @@ function init() {
     checkThemePreference();
 }
 
-// Generate a new random array
+
 function generateNewArray() {
     if (isSorting && !shouldStop) return;
     
@@ -115,7 +112,6 @@ function generateNewArray() {
     renderArray();
 }
 
-// Render the array as bars
 function renderArray() {
     arrayContainer.innerHTML = '';
     const maxValue = Math.max(...array);
@@ -130,7 +126,6 @@ function renderArray() {
     });
 }
 
-// Update algorithm information display
 function updateAlgorithmInfo() {
     const algo = algorithmDetails[sortingAlgorithm];
     
@@ -149,7 +144,7 @@ function updateAlgorithmInfo() {
     algorithmInfo.innerHTML = html;
 }
 
-// Setup event listeners
+
 function setupEventListeners() {
     generateBtn.addEventListener('click', generateNewArray);
     sortBtn.addEventListener('click', startSorting);
@@ -176,7 +171,6 @@ function setupEventListeners() {
     themeSwitch.addEventListener('change', toggleTheme);
 }
 
-// Start the sorting process
 function startSorting() {
     if (isSorting) return;
     
@@ -186,8 +180,7 @@ function startSorting() {
     startTime = performance.now();
     
     toggleButtons(true);
-    
-    // Call the appropriate sorting algorithm
+
     switch (sortingAlgorithm) {
         case 'bubble':
             sortingPromise = bubbleSort([...array]);
@@ -213,7 +206,7 @@ function startSorting() {
     });
 }
 
-// Pause/resume sorting
+
 function togglePause() {
     if (!isSorting) return;
     
@@ -221,12 +214,11 @@ function togglePause() {
     pauseBtn.textContent = isPaused ? 'Resume' : 'Pause';
     
     if (!isPaused) {
-        // Resume sorting
+
         startSorting();
     }
 }
 
-// Stop sorting
 function stopSorting() {
     if (!isSorting) return;
     
@@ -234,18 +226,16 @@ function stopSorting() {
     isSorting = false;
     isPaused = false;
     
-    // Reset button states
+
     toggleButtons(false);
     pauseBtn.textContent = 'Pause';
-    
-    // Reset all bars to default color
+
     const bars = document.querySelectorAll('.array-bar');
     bars.forEach(bar => {
         bar.classList.remove('sorted', 'comparing', 'pivot');
     });
 }
 
-// Reset state variables
 function resetState() {
     comparisons = 0;
     swaps = 0;
@@ -254,7 +244,7 @@ function resetState() {
     timeDisplay.textContent = "0 ms";
 }
 
-// Toggle button states
+
 function toggleButtons(sorting) {
     generateBtn.disabled = sorting;
     sortBtn.disabled = sorting;
@@ -264,16 +254,14 @@ function toggleButtons(sorting) {
     algorithmSelect.disabled = sorting;
 }
 
-// Highlight bars being compared
+
 function highlightBars(index1, index2) {
     const bars = document.querySelectorAll('.array-bar');
-    
-    // Reset previous highlights
+
     bars.forEach(bar => {
         bar.classList.remove('comparing');
     });
-    
-    // Highlight current comparison
+
     if (index1 >= 0 && index1 < bars.length) {
         bars[index1].classList.add('comparing');
     }
@@ -282,7 +270,6 @@ function highlightBars(index1, index2) {
     }
 }
 
-// Mark a bar as sorted
 function markSorted(index) {
     const bars = document.querySelectorAll('.array-bar');
     if (index >= 0 && index < bars.length) {
@@ -290,22 +277,18 @@ function markSorted(index) {
     }
 }
 
-// Mark a bar as pivot (for Quick Sort)
 function markPivot(index) {
     const bars = document.querySelectorAll('.array-bar');
-    
-    // Reset previous pivot marks
+
     bars.forEach(bar => {
         bar.classList.remove('pivot');
     });
-    
-    // Mark current pivot
+
     if (index >= 0 && index < bars.length) {
         bars[index].classList.add('pivot');
     }
 }
 
-// Update the array visualization
 async function updateArray(newArray, highlights = [], sortedIndices = [], pivotIndex = -1) {
     if (shouldStop) throw new Error("Sorting stopped");
     
@@ -319,18 +302,15 @@ async function updateArray(newArray, highlights = [], sortedIndices = [], pivotI
             
             array = [...newArray];
             renderArray();
-            
-            // Apply highlights
+
             if (highlights.length > 0) {
                 highlightBars(highlights[0], highlights[1]);
             }
-            
-            // Mark sorted elements
+
             sortedIndices.forEach(index => {
                 markSorted(index);
             });
-            
-            // Mark pivot
+
             if (pivotIndex !== -1) {
                 markPivot(pivotIndex);
             }
@@ -340,7 +320,6 @@ async function updateArray(newArray, highlights = [], sortedIndices = [], pivotI
     });
 }
 
-// Update statistics
 function updateStats(newComparisons, newSwaps) {
     comparisons += newComparisons;
     swaps += newSwaps;
@@ -353,13 +332,11 @@ function updateStats(newComparisons, newSwaps) {
     timeDisplay.textContent = `${elapsedTime.toFixed(2)} ms`;
 }
 
-// Complete the sorting process
 function completeSorting() {
     isSorting = false;
     isPaused = false;
     toggleButtons(false);
-    
-    // Mark all bars as sorted
+
     const bars = document.querySelectorAll('.array-bar');
     bars.forEach(bar => {
         bar.classList.add('sorted');
@@ -367,7 +344,6 @@ function completeSorting() {
     });
 }
 
-// Theme switching functionality
 function toggleTheme() {
     const isDark = themeSwitch.checked;
     document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
@@ -387,7 +363,6 @@ function checkThemePreference() {
     }
 }
 
-// Sorting Algorithms Implementation
 async function bubbleSort(arr) {
     let n = arr.length;
     let newSwaps = 0;
@@ -569,5 +544,4 @@ async function partition(arr, low, high) {
     return pivotIndex;
 }
 
-// Initialize the app when the DOM is loaded
 document.addEventListener('DOMContentLoaded', init);
