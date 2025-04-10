@@ -1,5 +1,6 @@
 # Sorting Algorithm Visualizer
-![Screenshot 2025-04-10 at 11 16 27 PM](https://github.com/user-attachments/assets/8c98acd6-0740-4741-b6bf-4833cc30e06e)
+![Screenshot 2025-04-10 at 11 22 01 PM](https://github.com/user-attachments/assets/a804b825-2242-4a8e-984f-bbc17856666a)
+
 
 A professional web application that visualizes various sorting algorithms with interactive controls, dark/light mode, and real-time statistics.
 
